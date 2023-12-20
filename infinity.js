@@ -11,8 +11,12 @@ const { performance } = require('perf_hooks');
 const moment = require('moment-timezone')
 const chalk = require("chalk");
 const OpenAI = require("openai");
+//const ytdl = require('ytdl-secktor');
+//const yts = require('secktor-pack');
 const os = require('os');
 const google =require('google-it');
+const { mediafireDl } = require('./lib/mediafire.js');
+const googleImage = require('g-i-s');
 const Genius = require("genius-lyrics"); 
 let { TelegraPh, UploadFileUgu, webp2mp4File } = require('./lib/uploader');
 let setting = require("./key.json");
@@ -70,6 +74,7 @@ const wapresence = process.env.WA_PRESENCE || 'recording';
     const autoread = process.env.AUTOREAD || 'TRUE';
 const autobio = process.env.AUTOBIO || 'TRUE';
 const antilinkall = process.env.ANTILINK_ALL || 'TRUE';
+const dev = process.env.OWNER || '254114018035'
 const antilink = process.env.ANTILINK || 'TRUE';
     const botNumber = await client.decodeJid(client.user.id);
     const itsMe = m.sender == botNumber ? true : false;
@@ -108,7 +113,7 @@ const runtime = function (seconds) {
     const color = (text, color) => {
       return !color ? chalk.green(text) : chalk.keyword(color)(text);
     };
-const dev = process.env.DEV || '254798242085'
+///const dev = process.env.DEV || '254798242085'
  const devkresswell = dev.split(",");
     const Owner = devkresswell.map((v) => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender)
 
@@ -758,7 +763,8 @@ case 'play':
                 })
                 .pipe(fs.createWriteStream(`./${randomName}`));
             console.log("Audio downloading ->", urlYt);
-            // reply("Downloading.. This may take upto 5 min!");
+             
+reply(`_Downloading ${infoYt.videoDetails.title}?_`);
             await new Promise((resolve, reject) => {
                 stream.on("error", reject);
                 stream.on("finish", resolve);
@@ -1314,15 +1320,15 @@ case "alive": {
 break;
 
 //group commands
-            case 'owner': case 'creator': {
+           case 'owner': case 'creator': {
                 let vcard = 'BEGIN:VCARD\n' // metadata of the contact card
                     + 'VERSION:3.0\n' 
-                    + 'N:;Kresswell.;;;'
+                    + 'N:;Muiruri.;;;'
                     + 'FN:Kresswell.\n' // full name
-                    + 'ORG:Infinity Hackers;\n' // the organization of the contact
-                    + 'TEL;type=CELL;type=VOICE;waid=254798242085;+2547982042085\n' // WhatsApp ID + phone number
+                    + 'ORG:𓄂ᴋ͟ʀ͟ᴇͥ͟sͣ͟sͫ͟ᴡ͟ᴇ͟ʟ͟ʟ͟;\n' // the organization of the contact
+                    + 'TEL;type=CELL;type=VOICE;waid=254798242085:+254 798-2420-85\n' // WhatsApp ID + phone number
                     + 'END:VCARD'
-                client.sendMessage(m.chat, { contacts: { displayName: 'Kresswell.', contacts: [{ vcard }] } }, { quoted: m })
+                client.sendMessage(m.chat, { contacts: { displayName: '𓄂ᴋ͟ʀ͟ᴇͥ͟sͣ͟sͫ͟ᴡ͟ᴇ͟ʟ͟ʟ͟.', contacts: [{ vcard }] } }, { quoted: m })
             }
             break;
             case 'q': case 'quoted': {
@@ -1594,13 +1600,13 @@ case "movie":
 break;
             case 'system': case 'speed': {
                 let timestamp = speed()
-                let kresswelli = speed() - timestamp
+                let latensi = speed() - timestamp
                 neww = performance.now()
                 oldd = performance.now()
                 respon = `
-Speed ${kresswelli.toFixed(4)} _Seconds_ \n ${oldd - neww} _miliseconds_\n\nRuntime : ${runtime(process.uptime())}
+Speed ${latensi.toFixed(4)} _Second_ \n ${oldd - neww} _miliseconds_\n\nRuntime : ${runtime(process.uptime())}
 
-💻Server Info
+💻 Info Server
 RAM: ${formatp(os.totalmem() - os.freemem())} / ${formatp(os.totalmem())}
 
 _NodeJS Memory Usaage_
@@ -1718,7 +1724,33 @@ client.sendMessage(from, { text: `Rate : ${q}\nAnswer : *${te}%*` }, { quoted: m
                                         break;
 
           case "sc": case "script": case "scbot":
-           m.reply("Find my source code from my github repository \n\n https://github.com/EscaliBud/InfinityAI");
+           let scmess= `
+╭─❒ SCRIPT
+│◦➛Owner : Kresswell
+│◦➺Co-Owner : Spider953
+│∞ *INFINITY HACKERS KENYA*
+└──────[ GITHUB ]──────❒
+  │◦➛Script Link :
+  │◦➛https://github.com/EscaliBud/InfinityAI
+  │◦➛Telegram Channel: 
+  │◦➛https://InfinityHackersKE.t.me 
+  └──────────────────❒`;
+client.sendMessage(m.chat, {
+                        text: scmess,
+                        contextInfo: {
+                            externalAdReply: {
+                                showAdAttribution: true,
+                                title: `INFINITY-AI`,
+                                body: `INFINITY HACKERS KENYA ◇.`,
+                                thumbnail: fs.readFileSync('./infinity.jpg'),
+                                sourceUrl: `https://InfinityHackersKE.t.me/`,
+                                mediaType: 1,
+                                renderLargerThumbnail: true
+                            }
+                        }
+                    }, {
+                        quoted: m
+                    })
           break;
 case "checks":
 let mcheks= `*⌜ Checks Menu ⌟*
@@ -2231,6 +2263,81 @@ case 'xnxxsearch': {
               if (res.status) reply(ff)
               }
               break;
+case 'mediafire':
+if (args.length < 1) return reply('Where is the link? ')
+if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply('error occured')
+if (Number(size) >= 30000) return reply(`*Nama :* ${res[0].nama}
+*Ukuran :* ${res[0].size}
+*Link :* ${res[0].link}
+
+_Maaf size melebihi batas maksimal, Silahkan klik link diatas_`)
+reply('Please wait...')
+teks = args.join(' ')
+res = await mediafireDl(teks)
+result = `*Nama :* ${res[0].nama}
+*Ukuran :* ${res[0].size}
+
+_File sedang dikirim, Silahkan tunggu beberapa menit_`
+reply(result)
+client.sendFileFromUrl(res[0].link, document, {mimetype: res[0].mime, filename: res[0].nama, quoted: mek})
+break;
+
+/*case 'gimg':
+case 'googleimage':
+if (args.length < 1) return reply('Apa Yang Mau Dicari?')
+reply('Please wait..')
+teks = args.join(' ')
+res = await googleImage(teks, google)
+function google(error, result){
+if (error){ return reply('_[ ! ] Error Terjari Kesalahan Atau Hasil Tidak Ditemukan_')}
+else {
+var gugIm = result
+var random =  gugIm[Math.floor(Math.random() * gugIm.length)].url
+client.sendFileFromUrl(random, image, {quoted: mek, caption: `*Hasil Pencarian Dari :* ${teks}`})
+}
+}
+break;*/
+            case 'kuismath': case 'math': {
+                if (kuismath.hasOwnProperty(m.sender.split('@')[0])) throw "Masih Ada Sesi Yang Belum Diselesaikan!"
+                let { genMath, modes } = require('./src/math')
+                if (!text) throw `Mode: ${Object.keys(modes).join(' | ')}\nContoh penggunaan: ${prefix}math medium`
+                let result = await genMath(text.toLowerCase())
+              client.sendText(m.chat, `*Berapa hasil dari: ${result.soal.toLowerCase()}*?\n\nWaktu: ${(result.waktu / 1000).toFixed(2)} detik`, m).then(() => {
+                    kuismath[m.sender.split('@')[0]] = result.jawaban
+                })
+                await sleep(result.waktu)
+                if (kuismath.hasOwnProperty(m.sender.split('@')[0])) {
+                    console.log("Jawaban: " + result.jawaban)
+                    m.reply("Waktu Habis\nJawaban: " + kuismath[m.sender.split('@')[0]])
+                    delete kuismath[m.sender.split('@')[0]]
+                }
+            }
+            break;
+case 'songg': {
+if (!text) return reply(`Example : ${prefix + command} believer`)
+    const ytdl = require('ytdl-secktor')
+    let urlYt = text;
+    if(m.quoted){ text=m.quoted.text; }
+
+    if (!urlYt.startsWith("http")) 
+    {
+        let yts = require("secktor-pack");
+        let search = await yts(text);
+        let anu = search.videos[0];
+        urlYt = anu.url; 
+    }
+    let infoYt = await ytdl.getInfo(urlYt);
+    if (infoYt.videoDetails.lengthSeconds >= 1200) return reply(`*Found Your Song, But it was too lengthy, Try Different Name*`);
+    let titleYt = infoYt.videoDetails.title;   
+reply(`_Downloading ${infoYt.videoDetails.title}?_`);
+await client.sendMessage(m.chat, { 
+    audio: { url: urlYt }, 
+    mimetype: 'audio/mpeg', 
+    fileName: `${infoYt.videoDetails.title}.mp3`,
+    caption: 'InfinityAI'
+  }, {quoted: m})
+}
+break;
 
         default: {
           if (isCmd2 && budy.toLowerCase() != undefined) {

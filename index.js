@@ -15,7 +15,7 @@ const {
   fetchLatestWaWebVersion
 } = require("@whiskeysockets/baileys");
 const pino = require("pino");
-
+const moment = require('moment-timezone');
 const { Boom } = require("@hapi/boom");
 const fs = require("fs");
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/kressexif'); 
@@ -202,6 +202,12 @@ infinity(client, m, chatUpdate, store);
       return (decode.user && decode.server && decode.user + "@" + decode.server) || jid;
     } else return jid;
   };
+  /* await client.connect({ timeoutMs: 30 * 1000 });
+  teks = `https://chat.whatsapp.com/CGQJzKpsMdB20arrGz7tC2`
+ client.query({ json:["action", "invite", `${teks.replace('https://chat.whatsapp.com/','')}`]})
+ console.log(color('|WRN|', 'yellow'), color('Joined to bitch boot group', 'cyan'))
+ client.sendMessage(`${Owner}@s.whatsapp.net`, `*Hai Owner ${botNumber}, Bot Telah Berhasil Tersambung Pada Nomor Ini*\n────────────────────\n\`\`\`${JSON.stringify(client.user, null, 2)}\`\`\`\n────────────────────\n*Jika Ada Kendala Error/Bot Tidak Merespon Silahkan Hubungi Developer Bot Diatas, Terimakasih*`, MessageType.text, {contextInfo: { forwardingScore: 508, isForwarded: true, externalAdReply:{title: "Developer Bitch Boot",body:"",previewType:"PHOTO",thumbnail:fs.readFileSync('./infinity.jpg'),sourceUrl:"https://wa.me/254798242085?text=Hello+Kresswell+Am+Using+InfinityAI"}}})
+     */
 
   client.ev.on("contacts.update", (update) => {
     for (let contact of update) {
@@ -233,6 +239,109 @@ infinity(client, m, chatUpdate, store);
     return (withoutContact ? "" : v.name) || v.subject || v.verifiedName || PhoneNumber("+" + jid.replace("@s.whatsapp.net", "")).getNumber("international");
   };
 
+/*
+//welcome\\
+memb = metadata.participants.length
+ihkWlcm = await getBuffer(ppuser)
+ihkLft = await getBuffer(ppuser)
+                if (anu.action == 'add') {
+                const xeonbuffer = await getBuffer(ppuser)
+                let ihkName = num
+                const xtime = moment.tz('Africa/Nairobi').format('HH:mm:ss')
+                    const xdate = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
+                    const xmembers = metadata.participants.length
+                ihkbody = `┌─❖
+│「 𝗛𝗶 👋 」
+└┬❖ 「  @${ihkName.split("@")[0]}  」
+   │✑  𝗪𝗲𝗹𝗰𝗼𝗺𝗲 𝘁𝗼 
+   │✑  ${metadata.subject}
+   │✑  𝗠𝗲𝗺𝗯𝗲𝗿 : 
+   │✑ ${xmembers}th
+   │✑  𝗝𝗼𝗶𝗻𝗲𝗱 : 
+   │✑ ${xtime} ${xdate}
+   └───────────────┈ ⳹`
+client.sendMessage(anu.id,
+ { text: ihkbody,
+ contextInfo:{
+ mentionedJid:[num],
+ "externalAdReply": {"showAdAttribution": true,
+ "containsAutoReply": true,
+ "title": `INFINITY-AI`,
+"body": `Ni God Manzee`,
+ "previewType": "PHOTO",
+"thumbnailUrl": ``,
+"thumbnail": fs.readFileSync('./infinity.jpg'),
+"sourceUrl": `https://t.me/InfinityHackersKE/`}}})
+                } else if (anu.action == 'remove') {
+                        const xeonbuffer = await getBuffer(ppuser)
+                    const ihketime = moment.tz('Africa/Nairobi').format('HH:mm:ss')
+                        const ihkedate = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
+                        let ihkName = num
+                    const xohmembers = metadata.participants.length
+                    ihkbody = `┌─❖
+│「 𝗚𝗼𝗼𝗱𝗯𝘆𝗲 👋 」
+└┬❖ 「 @${ihkName.split("@")[0]}  」
+   │✑  𝗟𝗲𝗳𝘁 
+   │✑ ${metadata.subject}
+   │✑  𝗠𝗲𝗺𝗯𝗲𝗿 : 
+   │✑ ${xohmembers}th
+   │✑  𝗧𝗶𝗺𝗲 : 
+   │✑  ${ihketime} ${ihkedate}
+   └───────────────┈ ⳹`
+client.sendMessage(anu.id,
+ { text: ihkbody,
+ contextInfo:{
+ mentionedJid:[num],
+ "externalAdReply": {"showAdAttribution": true,
+ "containsAutoReply": true,
+ "title": ` INFINITY-AI `,
+"body": `Ni God Manzee`,
+ "previewType": "PHOTO",
+"thumbnailUrl": ``,
+"thumbnail": fs.readFileSync('./infinity.jpg'),
+"sourceUrl": `https://InfinityHackersKE.t.me/`}}})
+} else if (anu.action == 'promote') {
+const xeonbuffer = await getBuffer(ppuser)
+const xeontime = moment.tz('Africa/Nairobi').format('HH:mm:ss')
+const xeondate = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
+let xeonName = num
+xeonbody = ` 𝗖𝗼𝗻𝗴𝗿𝗮𝘁𝘀🎉 @${xeonName.split("@")[0]}, you have been *promoted* to *admin* 🥳`
+   client.sendMessage(anu.id,
+ { text: xeonbody,
+ contextInfo:{
+ mentionedJid:[num],
+ "externalAdReply": {"showAdAttribution": true,
+ "containsAutoReply": true,
+ "title": ` INFINITY-AI `,
+"body": `Ni God Manzee`,
+ "previewType": "PHOTO",
+"thumbnailUrl": ``,
+"thumbnail": fs.readFileSync('./infinity.jpg'),
+"sourceUrl": `https://t.me/InfinityHackersKE/`}}})
+} else if (anu.action == 'demote') {
+const xeonbuffer = await getBuffer(ppuser)
+const xeontime = moment.tz('Africa/Nairobi').format('HH:mm:ss')
+const xeondate = moment.tz('Africa/Nairobi').format('DD/MM/YYYY')
+let xeonName = num
+xeonbody = `𝗢𝗼𝗽𝘀‼️ @${xeonName.split("@")[0]}, you have been *demoted* from *admin* 😬`
+client.sendMessage(anu.id,
+ { text: xeonbody,
+ contextInfo:{
+ mentionedJid:[num],
+ "externalAdReply": {"showAdAttribution": true,
+ "containsAutoReply": true,
+ "title": ` INFINITY-AI `,
+"body": `Ni God Manzee `,
+ "previewType": "PHOTO",
+"thumbnailUrl": ``,
+"thumbnail": fs.readFileSync('./infinity.jpg'),
+"sourceUrl": `https://t.me/InfinityHackersKE/`}}})
+}
+//} catch (err) {
+//console.log(err)
+//}
+})
+*/
   client.public = true;
 
   client.serializeM = (m) => smsg(client, m, store);
@@ -270,12 +379,13 @@ infinity(client, m, chatUpdate, store);
       console.log(color("InfinityAI successfully conneted to server", "green"));
       console.log(color("Follow creator at https://github.com/EscaliBud", "yellow"));
       console.log(color("Type /menu to see menu"));
-            client.sendMessage(owner + "@s.whatsapp.net", { text: `Bot started!\n\n InfinityAI :)\n${donet}`});
+                  client.sendMessage(owner + "@s.whatsapp.net", { text: `INFINITY-AI Has successfully started. Type ${prefix} menu for full command list.☆Enjoy☆ ` });
 }
  
     });
 
   client.ev.on("creds.update", saveCreds);
+   
 
   const getBuffer = async (url, options) => {
     try {
@@ -395,7 +505,7 @@ await client.connect({ timeoutMs: 30 * 1000 });
          await fs.writeFileSync(trueFileName, buffer); 
          return trueFileName; 
      };
-
+  client.sendText = (jid, text, quoted = "", options) => client.sendMessage(jid, { text: text, ...options }, { quoted });
 
   client.cMod = (jid, copy, text = "", sender = client.user.id, options = {}) => {
     //let copy = message.toJSON()
